@@ -4,11 +4,12 @@ $(function() {
 		$('.enter-button').on('click',function(){
 			var zipCode = $('.zip-field').val();
 
-
+			//shows error message if code is invalid
 			if(zipCode.length<5 || zipCode.length>5){
-				$('.error').slidedown();
+				$('.error').show();
 
 			}else{
+
 				getZip(zipCode);
 				$('#zip-screen').hide();
 				$('.weather-screen').show();
@@ -17,16 +18,18 @@ $(function() {
 
 		});
 		$('.zip-field').on ('keypress', function (e) {
+			var zipCode = $('.zip-field').val();
 				if(e.keyCode == 13) {
+					if(zipCode.length<5 || zipCode.length>5){
+						$('.error').show();
+
+					}else{
              var zipCode = $('.zip-field').val();
             getZip(zipCode);
 						$('#zip-screen').hide();
 						$('.weather-screen').show();
-
-        }else if(zipCode.length<5 || zipCode.length>5){
-					$('.error').slidedown();
-
-				}
+					}
+        }
     });
 
 
@@ -65,7 +68,8 @@ $(function() {
 	              $('.location').append(location);
 								$('.date').append(current_m+' '+current_d+', '+current_y);
 								$('.day').append(current_weekday);
-
+//utilizing weather/conditions to display weather icons
+								//utilizes the weather as argument to display today's icons
 								switch(weather){
 									case ('Overcast' || 'cloudy' || 'mostly cloudy' || 'scatted-clouds' || 'partly cloudy'):
 										$('.icon').append('<img src="cloud-icon.png" />');
@@ -77,6 +81,8 @@ $(function() {
 										$('.icon').append('<img src="rain-icon.png" />');
 										break;
 								}
+
+
 								//changes background color depending on the temperature
 								if(temp > 0 && temp < 40){
 										$('.weather-screen').addClass('cold');
@@ -123,12 +129,26 @@ $(function() {
 														abrv = "W"
 														break;
 												}
+												//utilizes the weather as argument to display weekday's icons
+												var weekdayWeather = day.conditions
+												var weekdayIcon = ""
+												switch(weekdayWeather){
+													case ('Overcast' || 'Cloudy' || 'Mostly Cloudy' || 'Scatted Clouds' || 'partly cloudy'):
+														var weekdayIcon = '<img src="cloud-icon.png" />';
+														break;
+													case ('Clear' || 'Sunny'):
+														var weekdayIcon = '<img src="sun.png" />';
+														break;
+													case ('Rain' || 'Showers' || 'Thunderstom' || 'Thunderstorms'):
+														var weekdayIcon = '<img src="rain-icon.png" />';
+														break;
+												}
 
 
 
 									$('#five-day').append('<div class="weekday">'
 										+'<p class="weekday-name">'+abrv+'</p>'
-										+'<div class="weekday-icon"></div>'
+										+'<div class="weekday-icon">'+weekdayIcon+'</div>'
 										+'<p class="weekday-high">'+day.high.fahrenheit+'</p>'
 										+'<p class="weekday-low">'+day.low.fahrenheit+'</p>'+'</div>');
 

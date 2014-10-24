@@ -218,10 +218,8 @@ img{
 
 }
 .weekday-icon{
-  background:#bbb;
-  height:40px;
-  width:40px;
-  border-radius:100%;
+  height:auto;
+  max-width:30px;
   margin:0 auto 30px auto;
 }
 
