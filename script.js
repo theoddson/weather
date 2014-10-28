@@ -59,26 +59,38 @@ $(function() {
 								var feels = tiempo['current_observation']['feelslike_f'];
 								var weather = tiempo['current_observation']['weather'];
 								var current_weekday = tiempo['forecast']['simpleforecast']['forecastday'][0]['date']['weekday'];
-								var current_m = tiempo['forecast']['simpleforecast']['forecastday'][0]['date']['monthname'];
+								var current_m = tiempo['forecast']['simpleforecast']['forecastday'][0]['date']['monthname_short'];
 								var current_d = tiempo['forecast']['simpleforecast']['forecastday'][0]['date']['day'];
 								var current_y = tiempo['forecast']['simpleforecast']['forecastday'][0]['date']['year'];
 
-								$('.temp_f').append(temp+'&deg;'+'F');
+								$('.temp_f').append(temp);
 								$('.weather').append(weather);
 	              $('.location').append(location);
 								$('.date').append(current_m+' '+current_d+', '+current_y);
 								$('.day').append(current_weekday);
-//utilizing weather/conditions to display weather icons
+
 								//utilizes the weather as argument to display today's icons
 								switch(weather){
-									case ('Overcast' || 'cloudy' || 'mostly cloudy' || 'scatted-clouds' || 'partly cloudy'):
-										$('.icon').append('<img src="cloud-icon.png" />');
+									case ('Overcast'):
+									case ('Cloudy'):
+									case ("Mostly Cloudy"):
+										$('.icon').append('<img src="overcast.png" />')
 										break;
-									case ('Clear' || 'Sunny'):
-										$('.icon').append('<img src="sun.png" />');
+									case ('Scattered Clouds'):
+									case ('Partly Cloudy'):
+										$('.icon').append('<img src="scattered-clouds.png" />')
 										break;
-									case ('Rain' || 'showers' || 'thunderstom' || 'thunderstorms'):
-										$('.icon').append('<img src="rain-icon.png" />');
+									case ('Clear'):
+										$('.icon').append('<img src="clear.png" />')
+										break;
+									case ('Sunny'):
+										$('.icon').append('<img src="sunnny.png" />')
+										break;
+									case ('Rain'):
+										case ('Chance of Rain'):
+									case('Thunderstom'):
+									case('Thunderstorms'):
+										$('.icon').append('<img src="rain.png" />')
 										break;
 								}
 
@@ -87,17 +99,17 @@ $(function() {
 								if(temp > 0 && temp < 40){
 										$('.weather-screen').addClass('cold');
 									}
-								if(temp > 40 && temp < 60){
+								if(temp > 30 && temp < 65){
 										$('.weather-screen').addClass('chilly');
 									}
-								if(temp > 60 && temp < 80){
+								if(temp > 65 && temp < 85){
 										$('.weather-screen').addClass('warm');
 									}
-								if(temp > 80 && temp < 100){
+								if(temp > 85 && temp < 90){
 										$('.weather-screen').addClass('hot');
 									}
 
-								//for the seven day forecast
+//makes the five day forecast appear
 								var daysOfweek = tiempo.forecast.simpleforecast.forecastday;
 								for(var i=1; i<6;i++){
 									var day = daysOfweek[i]
@@ -133,14 +145,29 @@ $(function() {
 												var weekdayWeather = day.conditions
 												var weekdayIcon = ""
 												switch(weekdayWeather){
-													case ('Overcast' || 'Cloudy' || 'Mostly Cloudy' || 'Scatted Clouds' || 'partly cloudy'):
-														var weekdayIcon = '<img src="cloud-icon.png" />';
+													case ('Scatted Clouds'):
+													case ('Partly Cloudy'):
+													case ('Mostly Sunny'):
+													case ('Partly Sunny'):
+														var weekdayIcon = '<img src="scattered-clouds.png" />';
 														break;
-													case ('Clear' || 'Sunny'):
-														var weekdayIcon = '<img src="sun.png" />';
+													case ('Overcast'):
+													case ('Cloudy' ):
+													case ('Mostly Cloudy'):
+														var weekdayIcon = '<img src="overcast.png" />';
 														break;
-													case ('Rain' || 'Showers' || 'Thunderstom' || 'Thunderstorms'):
-														var weekdayIcon = '<img src="rain-icon.png" />';
+													case ('Clear'):
+														var weekdayIcon = '<img src="clear.png" />';
+														break;
+													case ('Sunny'):
+														var weekdayIcon = '<img src="sunny.png" />';
+														break;
+													case ('Rain'):
+													case ('Chance of Rain'):
+													case('Showers'):
+													case ('Thunderstorm'):
+													case('Thunderstorms'):
+														var weekdayIcon = '<img src="rain.png" />';
 														break;
 												}
 
